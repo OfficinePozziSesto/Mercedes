@@ -2,14 +2,13 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, orientation=landscape">
     <title>Mercedes Comand Premium</title>
     <style>
         body {
             margin: 0;
             padding: 0;
             background-color: #0d121f; 
-            /* Sfumatura di sfondo elegante per dare profondità allo schermo */
             background: linear-gradient(145deg, #070a12, #111829);
             color: #e6e6e6;
             font-family: 'Courier New', Courier, monospace;
@@ -18,28 +17,39 @@
             align-items: center;
             height: 100vh;
             box-sizing: border-box;
-            padding: 10px; /* Spazio per la bordatura esterna */
+            padding: 5px; 
+            overflow: hidden;
         }
 
-        /* La cornice elegante intorno a tutto lo schermo dell'app */
         .cornice-comand {
             display: flex;
             height: 100%;
             width: 100%;
-            border: 2px solid #f5a623; /* Bordo ambra elegante */
-            box-shadow: 0 0 15px rgba(245, 166, 35, 0.2); /* Effetto luce soffusa */
+            border: 2px solid #f5a623; 
+            box-shadow: 0 0 15px rgba(245, 166, 35, 0.2); 
             border-radius: 8px;
             overflow: hidden;
         }
 
-        /* Lato sinistro per la mappa */
+        /* Lato sinistro ottimizzato a schermo intero per la mappa */
         .lato-mappa {
             flex: 1;
             border-right: 2px solid #f5a623; 
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
+            height: 100%;
+        }
+
+        .contenitore-mappa {
+            flex-grow: 1;
+            width: 100%;
+            height: calc(100% - 50px); /* Sottrae lo spazio del titolo */
+        }
+
+        iframe.mappa-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* Lato destro per Spotify e tasti */
@@ -48,54 +58,55 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 20px;
+            padding: 15px;
             position: relative;
+            height: 100%;
+            box-sizing: border-box;
         }
 
         .titolo-sezione {
             color: #f5a623; 
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
             letter-spacing: 1px;
+            padding: 15px 15px 5px 15px;
         }
 
-        /* Il Logo Mercedes stilizzato ed elegante in alto a destra */
         .logo-mercedes {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 40px;
-            height: 40px;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
             border: 2px solid #f5a623;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #f5a623;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
         }
 
-        /* I tasti rettangolari blu rifiniti meglio */
         .tasto-comand {
             background: linear-gradient(180deg, #1c2b46, #121e33);
-            border: 1px solid #f5a623; /* Bordo ambra coordinato */
+            border: 1px solid #f5a623; 
             color: #ffffff;
-            padding: 12px 20px;
-            font-size: 16px;
+            padding: 10px 18px;
+            font-size: 15px;
             font-weight: bold;
-            margin: 8px 0;
+            margin: 4px 0;
             text-align: center;
-            width: 150px;
+            width: 130px;
             border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
         .elenco-tasti {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
-            margin-bottom: 10px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -105,30 +116,16 @@
         
         <div class="lato-mappa">
             <div class="titolo-sezione">NAVIGAZIONE</div>
-            <<iframe 
-    width="100%" 
-    height="70%" 
-    style="border: 1px solid #f5a623; border-radius: 4px;" 
-    src="https://www.openstreetmap.org/export/embed.html?bbox=7.0%2C43.0%2C14.0%2C47.0&amp;layer=mapnik">
-</iframe>
-            <div></div> 
+            <div class="contenitore-mappa">
+                <iframe class="mappa-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=9.10%2C45.43%2C9.25%2C45.50&amp;layer=mapnik"></iframe>
+            </div>
         </div>
 
         <div class="lato-musica">
             <div class="titolo-sezione">MULTIMEDIA</div>
-            
             <div class="logo-mercedes">★</div>
             
-            <iframe 
-    style="border-radius:12px; border: 1px solid #f5a623;" 
-    src="https://open.spotify.com/embed/album/4aawyAB9vmqN3u77FjRccU?utm_source=generator&theme=0" 
-    width="100%" 
-    height="220px" 
-    frameBorder="0" 
-    allowfullscreen="" 
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-    loading="lazy">
-</iframe>
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX10zKzsJ2jva?utm_source=generator" width="100%" height="180px" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
             <div class="elenco-tasti">
                 <div class="tasto-comand">Bassi</div>
