@@ -2,47 +2,56 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Mercedes Comand Premium</title>
     <style>
-        body {
+        /* Forziamo il browser a non avere scrollbar e occupare il 100% reale dello schermo */
+        html, body {
             margin: 0;
             padding: 0;
-            background-color: #0d121f; 
-            background: linear-gradient(145deg, #070a12, #111829);
+            width: 100%;
+            height: 100%;
+            min-height: 100vh;
+            background-color: #070a12;
             color: #e6e6e6;
             font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            box-sizing: border-box;
-            padding: 5px; 
-            overflow: hidden;
+            padding: 0; /* Rimosso il padding esterno che decentrava */
         }
 
+        /* La cornice ora si adatta al millimetro allo schermo dell'iPhone */
         .cornice-comand {
             display: flex;
-            height: 100%;
-            width: 100%;
-            border: 2px solid #f5a623; 
-            box-shadow: 0 0 15px rgba(245, 166, 35, 0.2); 
-            border-radius: 8px;
+            height: 100vh;
+            width: 100vw;
+            border: 1px solid #f5a623; 
+            box-sizing: border-box;
             overflow: hidden;
+            background: linear-gradient(145deg, #070a12, #111829);
         }
 
+        /* Lato sinistro: Mappa occupa tutto lo spazio verticale */
         .lato-mappa {
-            flex: 1.2; /* Diamo leggermente più spazio alla mappa */
-            border-right: 2px solid #f5a623; 
+            flex: 1.3;
+            border-right: 1px solid #f5a623; 
             display: flex;
             flex-direction: column;
             height: 100%;
+            box-sizing: border-box;
         }
 
         .contenitore-mappa {
             flex-grow: 1;
             width: 100%;
             height: calc(100% - 40px);
+            background-color: #111;
         }
 
         iframe.mappa-frame {
@@ -51,12 +60,13 @@
             border: none;
         }
 
+        /* Lato destro: Contenuto speculare e centrato */
         .lato-musica {
             flex: 1;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 12px;
+            padding: 10px;
             position: relative;
             height: 100%;
             box-sizing: border-box;
@@ -64,122 +74,163 @@
 
         .titolo-sezione {
             color: #f5a623; 
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             letter-spacing: 1px;
-            padding: 5px 0;
+            padding: 5px 0 0 10px;
         }
 
         .logo-mercedes {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            width: 30px;
-            height: 30px;
-            border: 2px solid #f5a623;
+            top: 10px;
+            right: 10px;
+            width: 28px;
+            height: 28px;
+            border: 1px solid #f5a623;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #f5a623;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
         }
 
-        /* Pannello Audio Sostitutivo di Spotify per iPhone */
         .pannello-audio {
             background: rgba(28, 43, 70, 0.4);
-            border: 1px solid rgba(245, 166, 35, 0.5);
+            border: 1px solid rgba(245, 166, 35, 0.4);
             border-radius: 6px;
-            padding: 15px;
+            padding: 10px;
             text-align: center;
-            margin: 10px 0;
+            margin: 5px 0;
         }
 
         .btn-spotify {
             background-color: #1DB954;
             color: white;
             border: none;
-            padding: 10px 15px;
-            font-size: 14px;
+            padding: 8px 12px;
+            font-size: 12px;
             font-weight: bold;
             border-radius: 20px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
-            margin-bottom: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            margin-bottom: 5px;
         }
 
         .controlli-player {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            font-size: 20px;
+            gap: 25px;
+            font-size: 24px;
             color: #f5a623;
             margin-top: 5px;
+        }
+
+        .icona-tasto {
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .icona-tasto:active {
+            color: #ffffff;
         }
 
         .tasto-comand {
             background: linear-gradient(180deg, #1c2b46, #121e33);
             border: 1px solid #f5a623; 
             color: #ffffff;
-            padding: 8px 15px;
-            font-size: 14px;
+            padding: 6px 12px;
+            font-size: 13px;
             font-weight: bold;
-            margin: 3px 0;
+            margin: 2px 0;
             text-align: center;
-            width: 120px;
+            width: 110px;
             border-radius: 4px;
+            cursor: pointer;
         }
 
         .elenco-tasti {
             display: flex;
             flex-direction: column;
             align-items: flex-end;
+            padding-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
+    <audio id="audio-silenzioso" loop src="https://actions.google.com/sounds/v1/ambiences/morning_birds.ogg" style="display:none;"></audio>
+
     <div class="cornice-comand">
         
-        <!-- LATO SINISTRO (MAPPA ADATTIVA) -->
         <div class="lato-mappa">
-            <div style="padding: 10px 0 0 15px;" class="titolo-sezione">NAVIGAZIONE</div>
+            <div class="titolo-sezione">NAVIGAZIONE</div>
             <div class="contenitore-mappa">
-                <iframe class="mappa-frame" src="https://www.openstreetmap.org/export/embed.html?bbox=7.0%2C43.0%2C14.0%2C47.0&amp;layer=mapnik"></iframe>
+                <iframe class="mappa-frame" id="mappa-realtime" src="https://maps.google.com/maps?q=Milano&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
             </div>
         </div>
 
-        <!-- LATO DESTRO (INTERFACCIA AUDIO + TASTI) -->
         <div class="lato-musica">
             <div>
                 <div class="titolo-sezione">MULTIMEDIA</div>
                 <div class="logo-mercedes">★</div>
             </div>
             
-            <!-- CONTROLLO MULTIMEDIALE OTTIMIZZATO PER IPHONE -->
             <div class="pannello-audio">
                 <a href="spotify://" class="btn-spotify">APRI SPOTIFY</a>
-                <div style="font-size: 12px; color: #a0a5b5; margin-bottom: 10px;">Comand Audio Active</div>
+                <div style="font-size: 11px; color: #a0a5b5; margin-bottom: 5px;" id="status-txt">Comand System Connected</div>
+                
                 <div class="controlli-player">
-                    <span>⏮</span>
-                    <span>⏸</span>
-                    <span>⏭</span>
+                    <span class="icona-tasto" onclick="controlloMusica('prev')">⏮</span>
+                    <span class="icona-tasto" id="play-btn" onclick="controlloMusica('toggle')">⏸</span>
+                    <span class="icona-tasto" onclick="controlloMusica('next')">⏭</span>
                 </div>
             </div>
 
-            <!-- MENU TASTI IN ITALIANO -->
             <div class="elenco-tasti">
-                <div class="tasto-comand">Bassi</div>
-                <div class="tasto-comand">Alti</div>
-                <div class="tasto-comand">Bil/Fad</div>
-                <div class="tasto-comand">Indietro</div>
+                <div class="tasto-comand" onclick="alert('Bassi')">Bassi</div>
+                <div class="tasto-comand" onclick="alert('Alti')">Alti</div>
+                <div class="tasto-comand" onclick="alert('Bil/Fad')">Bil/Fad</div>
+                <div class="tasto-comand" onclick="history.back()">Indietro</div>
             </div>
         </div>
 
     </div>
 
+    <script>
+        // GEOLOCALIZZAZIONE REALE GOOGLE MAPS ZOOMATA SULLA TUA POSIZIONE
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lon = position.coords.longitude;
+                document.getElementById('mappa-realtime').src = "https://maps.google.com/maps?q=" + lat + "," + lon + "&t=&z=16&ie=UTF8&iwloc=&output=embed";
+            });
+        }
+
+        // EMULAZIONE CONTROLLI AUDIO IN BACKGROUND
+        var audio = document.getElementById('audio-silenzioso');
+        var isPlaying = false;
+
+        function controlloMusica(azione) {
+            if (azione === 'toggle') {
+                if (!isPlaying) {
+                    audio.play().catch(e => console.log(e));
+                    document.getElementById('play-btn').innerText = "▶";
+                    document.getElementById('status-txt').innerText = "Riproduzione attiva";
+                    isPlaying = true;
+                } else {
+                    audio.pause();
+                    document.getElementById('play-btn').innerText = "⏸";
+                    document.getElementById('status-txt').innerText = "In pausa";
+                    isPlaying = false;
+                }
+            } else if (azione === 'next' || azione === 'prev') {
+                document.getElementById('status-txt').innerText = "Cambio traccia...";
+                setTimeout(() => { document.getElementById('status-txt').innerText = "Riproduzione attiva"; }, 800);
+            }
+        }
+    </script>
 </body>
 </html>
