@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Mercedes Comand</title>
+    <title>Mercedes Comand Control</title>
     <style>
         * {
             box-sizing: border-box;
@@ -14,58 +12,76 @@
             -webkit-user-select: none;
         }
         html, body {
-            width: 100% !important;
-            height: 100% !important;
-            height: 100svh !important; /* Forza l'altezza reale dell'iPhone eliminando le barre */
-            background-color: #070a12 !important;
-            overflow: hidden !important;
-            position: fixed !important;
-            top: 0;
-            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #070a12;
+            overflow: hidden;
+            font-family: 'Courier New', monospace;
         }
         .cornice-comand {
-            display: flex !important;
-            width: 100vw !important;
-            height: 100vh !important;
-            height: 100svh !important;
-            background: #070a12;
+            display: flex;
+            width: 100vw;
+            height: 100vh;
             border: 2px solid #f5a623;
         }
         .lato-mappa {
-            width: 55% !important;
-            height: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
+            width: 55%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
             border-right: 2px solid #f5a623;
+            position: relative;
         }
         .titolo-sezione {
             color: #f5a623;
-            font-family: 'Courier New', monospace;
             font-size: 16px;
             font-weight: bold;
-            padding: 8px 0 4px 10px;
+            padding: 8px 10px;
             background: #070a12;
+            z-index: 10;
         }
         .contenitore-mappa {
-            width: 100% !important;
-            flex-grow: 1 !important;
-            height: 100% !important;
+            width: 100%;
+            flex-grow: 1;
+            height: 100%;
             background: #000;
+            position: relative;
         }
         iframe.mappa-frame {
-            width: 100% !important;
-            height: 100% !important;
-            border: none !important;
-            display: block !important;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* Pulsante trasparente sopra la mappa per lanciare il navigatore vero dell'iPhone */
+        .link-navigatore {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            z-index: 5;
+        }
+        .info-click {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 3px;
+            z-index: 6;
+            pointer-events: none;
         }
         .lato-musica {
-            width: 45% !important;
-            height: 100% !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: space-between !important;
-            padding: 10px !important;
-            box-sizing: border-box !important;
+            width: 45%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+            box-sizing: border-box;
         }
         .logo-mercedes {
             position: absolute;
@@ -78,15 +94,14 @@
             background: rgba(28, 43, 70, 0.6);
             border: 1px solid #f5a623;
             border-radius: 4px;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
         }
         .btn-spotify {
             background-color: #1DB954;
             color: white;
             border: none;
-            padding: 6px 14px;
-            font-family: 'Courier New', monospace;
+            padding: 8px 16px;
             font-size: 11px;
             font-weight: bold;
             border-radius: 20px;
@@ -96,16 +111,23 @@
         .controlli-player {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            font-size: 22px;
+            gap: 35px;
+            font-size: 26px;
             color: #f5a623;
-            margin-top: 5px;
+            margin-top: 8px;
+        }
+        .icona-tasto {
+            text-decoration: none;
+            color: #f5a623;
+            cursor: pointer;
+        }
+        .icona-tasto:active {
+            color: #ffffff;
         }
         .tasto-comand {
             background: linear-gradient(180deg, #1c2b46, #121e33);
             border: 1px solid #f5a623;
             color: #ffffff;
-            font-family: 'Courier New', monospace;
             padding: 6px 0;
             font-size: 11px;
             font-weight: bold;
@@ -113,6 +135,7 @@
             width: 100px;
             border-radius: 3px;
             margin: 1px 0;
+            cursor: pointer;
         }
         .elenco-tasti {
             display: flex;
@@ -123,42 +146,57 @@
     </style>
 </head>
 <body>
+
     <div class="cornice-comand">
+        
         <div class="lato-mappa">
-            <div class="titolo-sezione">NAVIGAZIONE</div>
+            <div class="titolo-sezione">NAVIGAZIONE REALE</div>
             <div class="contenitore-mappa">
+                <a href="maps://?q=navigazione" class="link-navigatore"></a>
+                <div class="info-click">Touch per avviare navigazione</div>
                 <iframe class="mappa-frame" id="mappa-realtime" src="https://www.openstreetmap.org/export/embed.html?bbox=9.15%2C45.43%2C9.25%2C45.50&layer=mapnik"></iframe>
             </div>
         </div>
+
         <div class="lato-musica">
             <div style="position: relative;">
                 <div class="titolo-sezione" style="padding-left:0;">MULTIMEDIA</div>
                 <div class="logo-mercedes">★</div>
             </div>
+            
             <div class="pannello-audio">
                 <a href="spotify://" class="btn-spotify">APRI SPOTIFY</a>
-                <div style="font-size: 10px; color: #a0a5b5; margin-top: 4px; font-family: monospace;">AUDIO ACTIVE</div>
+                <div style="font-size: 10px; color: #a0a5b5; margin-top: 5px;">TAP FRECCE PER APRIRE PLAYER</div>
+                
                 <div class="controlli-player">
-                    <span>⏮</span>
-                    <span>⏸</span>
-                    <span>⏭</span>
+                    <a href="spotify://collection/tracks" class="icona-tasto">⏮</a>
+                    <a href="spotify://current-track" class="icona-tasto">⏸</a>
+                    <a href="spotify://search" class="icona-tasto">⏭</a>
                 </div>
             </div>
+
             <div class="elenco-tasti">
-                <div class="tasto-comand">Bassi</div>
-                <div class="tasto-comand">Alti</div>
-                <div class="tasto-comand">Bil/Fad</div>
-                <div class="tasto-comand">Indietro</div>
+                <div class="tasto-comand" onclick="window.location.href='https://www.rtl.it/'">Radio</div>
+                <div class="tasto-comand" onclick="alert('Alti')">Alti</div>
+                <div class="tasto-comand" onclick="alert('Bil/Fad')">Bil/Fad</div>
+                <div class="tasto-comand" onclick="history.back()">Indietro</div>
             </div>
         </div>
+
     </div>
+
     <script>
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var lat = position.coords.latitude;
                 var lon = position.coords.longitude;
                 var offset = 0.003; 
+                
+                // Aggiorna l'anteprima visiva della mappa
                 document.getElementById('mappa-realtime').src = "https://www.openstreetmap.org/export/embed.html?bbox=" + (lon - offset) + "%2C" + (lat - offset) + "%2C" + (lon + offset) + "%2C" + (lat + offset) + "&layer=mapnik&marker=" + lat + "%2C" + lon;
+                
+                // Imposta il tasto di navigazione per partire esattamente da dove ti trovi ora
+                document.querySelector('.link-navigatore').href = "maps://?saddr=" + lat + "," + lon + "&daddr=";
             });
         }
     </script>
