@@ -7,40 +7,36 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Mercedes Comand</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-user-select: none;
-        }
-        
-        /* Forziamo il corpo della pagina a ignorare i limiti di Safari */
+        /* Reset totale per eliminare ogni millimetro di spazio vuoto grigio */
         html, body {
+            margin: 0 !important;
+            padding: 0 !important;
             width: 100% !important;
             height: 100% !important;
-            position: fixed;
-            overflow: hidden;
-            background-color: #000000;
-        }
-
-        /* Cornice totale bloccata ai bordi fisici dello schermo dell'iPhone */
-        .cornice-comand {
-            position: absolute;
+            height: 100svh !important; /* Forza l'altezza reale dell'iPhone senza barre */
+            background-color: #070a12 !important;
+            overflow: hidden !important;
+            position: fixed !important;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
+        }
+
+        .cornice-comand {
+            display: flex !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            height: 100svh !important;
             background: #070a12;
+            box-sizing: border-box;
             border: 2px solid #f5a623;
         }
 
-        /* Pannello Navigatore */
+        /* Lato Navigatore forzato */
         .lato-mappa {
-            width: 58%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
+            width: 55% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
             border-right: 2px solid #f5a623;
         }
 
@@ -49,47 +45,48 @@
             font-family: 'Courier New', monospace;
             font-size: 16px;
             font-weight: bold;
-            padding: 10px;
+            padding: 8px 0 4px 10px;
             background: #070a12;
         }
 
         .contenitore-mappa {
-            width: 100%;
-            flex-grow: 1;
+            width: 100% !important;
+            flex-grow: 1 !important;
+            height: 100% !important;
             background: #000;
         }
 
         iframe.mappa-frame {
-            width: 100%;
-            height: 100%;
-            border: none;
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+            display: block !important;
         }
 
-        /* Pannello Controlli Destro */
+        /* Lato Controlli Destro */
         .lato-musica {
-            width: 42%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 12px;
-            position: relative;
-            background: linear-gradient(145deg, #070a12, #111829);
+            width: 45% !important;
+            height: 100% !important;
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: space-between !important;
+            padding: 10px !important;
+            box-sizing: border-box !important;
         }
 
         .logo-mercedes {
             position: absolute;
-            top: 10px;
-            right: 15px;
+            top: 8px;
+            right: 12px;
             color: #f5a623;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .pannello-audio {
             background: rgba(28, 43, 70, 0.6);
             border: 1px solid #f5a623;
-            border-radius: 6px;
-            padding: 15px;
+            border-radius: 4px;
+            padding: 10px;
             text-align: center;
         }
 
@@ -97,9 +94,9 @@
             background-color: #1DB954;
             color: white;
             border: none;
-            padding: 8px 18px;
+            padding: 6px 14px;
             font-family: 'Courier New', monospace;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             border-radius: 20px;
             text-decoration: none;
@@ -109,10 +106,10 @@
         .controlli-player {
             display: flex;
             justify-content: center;
-            gap: 35px;
-            font-size: 26px;
+            gap: 30px;
+            font-size: 22px;
             color: #f5a623;
-            margin-top: 10px;
+            margin-top: 5px;
         }
 
         .tasto-comand {
@@ -120,13 +117,13 @@
             border: 1px solid #f5a623;
             color: #ffffff;
             font-family: 'Courier New', monospace;
-            padding: 8px 0;
-            font-size: 12px;
+            padding: 6px 0;
+            font-size: 11px;
             font-weight: bold;
             text-align: center;
-            width: 110px;
-            border-radius: 4px;
-            margin: 2px 0;
+            width: 100px;
+            border-radius: 3px;
+            margin: 1px 0;
         }
 
         .elenco-tasti {
@@ -149,14 +146,14 @@
         </div>
 
         <div class="lato-musica">
-            <div>
+            <div style="position: relative;">
                 <div class="titolo-sezione" style="padding-left:0;">MULTIMEDIA</div>
                 <div class="logo-mercedes">★</div>
             </div>
             
             <div class="pannello-audio">
                 <a href="spotify://" class="btn-spotify">APRI SPOTIFY</a>
-                <div style="font-size: 11px; color: #a0a5b5; margin-top: 6px; font-family: monospace;">AUDIO ONLINE</div>
+                <div style="font-size: 10px; color: #a0a5b5; margin-top: 4px; font-family: monospace;">AUDIO ACTIVE</div>
                 <div class="controlli-player">
                     <span>⏮</span>
                     <span>⏸</span>
@@ -175,27 +172,13 @@
     </div>
 
     <script>
-        // Forza lo scorrimento verso l'alto per nascondere i controlli Safari su iPhone
-        window.addEventListener("load", function() {
-            setTimeout(function() {
-                window.scrollTo(0, 1);
-            }, 0);
-        });
-
-        // Geolocalizzazione con mappa stradale dettagliata (OpenStreetMap ad alta precisione mobile)
+        // Geolocalizzazione con zoom stradale reale da navigatore auto
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var lat = position.coords.latitude;
                 var lon = position.coords.longitude;
-                
-                // Calcoliamo un'area di visualizzazione stretta attorno all'iPhone (zoom da navigatore)
-                var offset = 0.005; 
-                var minLon = lon - offset;
-                var maxLon = lon + offset;
-                var minLat = lat - offset;
-                var maxLat = lat + offset;
-                
-                document.getElementById('mappa-realtime').src = "https://www.openstreetmap.org/export/embed.html?bbox=" + minLon + "%2C" + minLat + "%2C" + maxLon + "%2C" + maxLat + "&layer=mapnik&marker=" + lat + "%2C" + lon;
+                var offset = 0.004; 
+                document.getElementById('mappa-realtime').src = "https://www.openstreetmap.org/export/embed.html?bbox=" + (lon - offset) + "%2C" + (lat - offset) + "%2C" + (lon + offset) + "%2C" + (lat + offset) + "&layer=mapnik&marker=" + lat + "%2C" + lon;
             });
         }
     </script>
