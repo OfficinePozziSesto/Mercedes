@@ -324,14 +324,17 @@
             }
         }
 
-        function togglePlayback() {
+       function togglePlayback() {
             const btn = document.getElementById('play-btn');
-            if (!player.src) {
+            
+            // Forza il caricamento se non è ancora partito
+            if (!player.src || player.src === "") {
                 player.src = stations[currentStationIdx].url;
                 player.load();
             }
             
             if (player.paused) {
+                // Rimuoviamo l'alert molesto e proviamo l'avvio diretto guidato dal tocco dell'utente
                 player.play()
                 .then(() => {
                     btn.innerText = "SYSTEM OFF";
@@ -340,7 +343,15 @@
                     startEqualizer();
                 })
                 .catch(err => {
-                    alert("Tocca di nuovo per attivare l'audio");
+                    // Se iOS fa i capricci, resettiamo lo streaming e riproviamo subito senza finestre di errore
+                    console.log("iOS Audio Blocked: Retrying...");
+                    player.load();
+                    player.play().then(() => {
+                        btn.innerText = "SYSTEM OFF";
+                        btn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
+                        btn.style.color = "#ffffff";
+                        startEqualizer();
+                    });
                 });
             } else {
                 player.pause();
