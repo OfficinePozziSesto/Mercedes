@@ -17,7 +17,7 @@
             width: 100%;
             height: 100%;
             height: 100svh;
-            background-color: #020612;
+            background-color: #0b1a30;
             overflow: hidden;
             position: fixed;
             font-family: 'Courier New', monospace;
@@ -32,7 +32,8 @@
             padding: 12px;
             box-sizing: border-box;
             position: relative;
-            background-color: #040a18;
+            /* MODIFICA: Sfondo blu schiarito rispetto a prima per maggiore visibilità */
+            background-color: #0e2447;
         }
 
         /* STRATO SFONDO: Scala di sintonizzazione analogica anni 80 in bianco e nero disegnata in codice */
@@ -41,12 +42,10 @@
             top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
-            opacity: 0.15; /* Sfumata sul fondo */
+            opacity: 0.18;
             background-image: 
-                /* Linee orizzontali della scala FM/AM */
                 linear-gradient(transparent 48%, #ffffff 49%, #ffffff 51%, transparent 52%),
                 linear-gradient(transparent 58%, #ffffff 59%, #ffffff 61%, transparent 62%),
-                /* Tacche verticali delle frequenze della radio */
                 linear-gradient(90deg, #ffffff 2px, transparent 2px);
             background-size: 100% 100%, 100% 100%, 5% 15px;
             background-position: 0 0, 0 0, center 52%;
@@ -59,8 +58,8 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background-image: 
-                linear-gradient(rgba(74, 144, 226, 0.09) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(74, 144, 226, 0.09) 1px, transparent 1px);
+                linear-gradient(rgba(74, 144, 226, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 226, 0.12) 1px, transparent 1px);
             background-size: 20px 20px;
             z-index: 1;
             pointer-events: none;
@@ -95,10 +94,10 @@
         .display-frequenza {
             text-align: center;
             margin: 5px 0;
-            background: rgba(4, 10, 24, 0.75);
+            background: rgba(11, 29, 56, 0.85);
             padding: 8px;
             border-radius: 4px;
-            border: 1px solid rgba(74, 144, 226, 0.3);
+            border: 1px solid rgba(74, 144, 226, 0.35);
         }
         .ch-name {
             color: #ffffff;
@@ -140,7 +139,7 @@
             gap: 6px;
         }
         .btn-preset {
-            background: linear-gradient(180deg, #0e1e38, #050b18);
+            background: linear-gradient(180deg, #0e2242, #071326);
             border: 1px solid #4a90e2;
             color: #ffffff;
             padding: 8px 0;
@@ -247,10 +246,10 @@
             <div class="station-grid">
                 <div class="btn-preset active" onclick="changeStation(0)">[1] 100% RADIO 80s</div>
                 <div class="btn-preset" onclick="changeStation(1)">[2] JAZZ INTER.</div>
-                <div class="btn-preset" onclick="changeStation(2)">[3] JAZZ CAFE</div>
-                <div class="btn-preset" onclick="changeStation(3)">[4] DISCO 80 HITS</div>
-                <div class="btn-preset" onclick="changeStation(4)">[5] CLASSIC ROCK 80</div>
-                <div class="btn-preset" onclick="changeStation(5)">[6] ABSOLUTE 80s</div>
+                <div class="btn-preset" onclick="changeStation(2)">[3] ITALIANA HITS</div>
+                <div class="btn-preset" onclick="changeStation(3)">[4] PURE POP RADIO</div>
+                <div class="btn-preset" onclick="changeStation(4)">[5] CLASSIC ROCK</div>
+                <div class="btn-preset" onclick="changeStation(5)">[6] 70s DISCO DANCE</div>
             </div>
         </div>
 
@@ -274,14 +273,14 @@
     <audio id="radio-player" preload="none"></audio>
 
     <script>
-        // FLUSSI AUDIO AGGIORNATI: Tutti MP3 puri e diretti compatibili al 100% con iOS
+        // MODIFICA: Nuova lista radio con flussi stabili MP3 ad alta compatibilità per iOS
         const stations = [
             { name: "100% RADIO 80s", genre: "88.5 MHz - BEST OF EIGHTIES HITS", url: "https://100radio-80.ice.infomaniak.ch/100radio-80-128.mp3" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
-            { name: "JAZZ CAFE RADIO", genre: "94.1 MHz - LOUNGE & SMOOTH BEATS", url: "https://jazzcafe.ice.infomaniak.ch/jazzcafe-high.mp3" },
-            { name: "DISCO 80 HITS", genre: "91.3 MHz - PURE 80s DISCO FEVER", url: "https://80s.ice.infomaniak.ch/80s-high.mp3" },
-            { name: "CLASSIC ROCK 80", genre: "101.8 MHz - GREAT ROCK ANTHEMS", url: "https://classicrock.ice.infomaniak.ch/classicrock-high.mp3" },
-            { name: "ABSOLUTE 80s", genre: "105.4 MHz - NON-STOP 80s CLASSICS", url: "http://stream.live.vc.bbcmedia.co.uk/bbc_radio_two" }
+            { name: "MUSICA ITALIANA", genre: "95.6 MHz - SOLO GRANDI SUCCESSI ITALIANI", url: "https://topit.ice.infomaniak.ch/topit-high.mp3" },
+            { name: "PURE POP RADIO", genre: "102.1 MHz - HIT RADIO POP & DANCE", url: "https://hit-radio.ice.infomaniak.ch/hit-radio-high.mp3" },
+            { name: "CLASSIC ROCK", genre: "98.4 MHz - ROCK ANTHEMS & LEGENDS", url: "https://classicrock.ice.infomaniak.ch/classicrock-high.mp3" },
+            { name: "70s DISCO DANCE", genre: "91.2 MHz - PURE 1970 FUNK & DISCO", url: "https://70s.ice.infomaniak.ch/70s-high.mp3" }
         ];
 
         let currentStationIdx = 0;
