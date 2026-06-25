@@ -226,6 +226,109 @@
             border: 1px solid #4a90e2;
             box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
         }
+
+        /* --- STILI NUOVA SCHERMATA METEO (SYS) --- */
+        .page-view {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .page-view.active-view {
+            display: flex;
+        }
+        
+        /* Grafica Termometro nello sfondo del meteo */
+        .weather-panel-content {
+            position: relative;
+            background: rgba(11, 29, 56, 0.85);
+            border: 1px solid rgba(74, 144, 226, 0.35);
+            border-radius: 4px;
+            padding: 15px;
+            height: calc(100% - 65px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .thermometer-visual {
+            width: 35px;
+            height: 100%;
+            background: #071326;
+            border: 2px solid #4a90e2;
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            flex-direction: column-reverse;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+        
+        .thermo-fill {
+            width: 100%;
+            height: 50%; /* Dinamico via JS */
+            background: linear-gradient(0deg, #4a90e2 0%, #ffffff 100%);
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(74, 144, 226, 0.8);
+            transition: height 0.5s ease;
+        }
+        
+        .thermo-ticks {
+            position: absolute;
+            left: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #a4c6f4;
+            font-size: 9px;
+            font-weight: bold;
+            padding: 5px 0;
+            top: 0;
+        }
+
+        .weather-info-box {
+            flex: 1;
+            margin-left: 55px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .weather-temp-text {
+            font-size: 42px;
+            color: #ffffff;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(74, 144, 226, 0.6);
+        }
+
+        .weather-status-text {
+            color: #a4c6f4;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+        
+        .weather-loc-text {
+            color: #4a90e2;
+            font-size: 11px;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        /* Tasto stondato rettangolare richiesto */
+        .btn-sys-rounded {
+            border-radius: 8px !important;
+            background: linear-gradient(180deg, #16335c, #09172e) !important;
+            border: 1px solid #4a90e2 !important;
+            color: #a4c6f4 !important;
+            box-shadow: 0 0 6px rgba(74, 144, 226, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -234,30 +337,62 @@
         <div class="tuner-back-layer"></div>
 
         <div class="screen-left">
-            <div class="header-system">
-                <span>comand Mercedes Benz Dub</span>
-                <span>AUDIO: TUNER-DUB</span>
-            </div>
             
-            <div class="display-frequenza" id="radio-display">
-                <div id="station-title" class="ch-name">RADIO TUNER</div>
-                <div id="station-details" class="ch-genre">PRESET MODE</div>
+            <div id="view-radio" class="page-view active-view">
+                <div class="header-system">
+                    <span>comand Mercedes Benz Dub</span>
+                    <span>AUDIO: TUNER-DUB</span>
+                </div>
+                
+                <div class="display-frequenza" id="radio-display">
+                    <div id="station-title" class="ch-name">RADIO TUNER</div>
+                    <div id="station-details" class="ch-genre">PRESET MODE</div>
+                </div>
+
+                <div class="eq-container">
+                    <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+                    <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+                    <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+                </div>
+
+                <div class="station-grid">
+                    <div class="btn-preset active" id="p-0">[1] 100% 80s</div>
+                    <div class="btn-preset" id="p-1">[2] JAZZ INT.</div>
+                    <div class="btn-preset" id="p-2">[3] EMPTY CH</div>
+                    <div class="btn-preset" id="p-3">[4] EMPTY CH</div>
+                    <div class="btn-preset" id="p-4">[5] EMPTY CH</div>
+                    <div class="btn-preset" id="p-5">[6] EMPTY CH</div>
+                </div>
             </div>
 
-            <div class="eq-container">
-                <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
-                <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
-                <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+            <div id="view-weather" class="page-view">
+                <div class="header-system">
+                    <span>comand Mercedes Benz Dub</span>
+                    <span>SYS: LIVE WEATHER</span>
+                </div>
+                
+                <div class="weather-panel-content">
+                    <div class="thermometer-visual">
+                        <div class="thermo-fill" id="thermo-fluid"></div>
+                        <div class="thermo-ticks">
+                            <span>50°</span><span>40°</span><span>30°</span><span>20°</span><span>10°</span><span>0°</span><span>-10°</span>
+                        </div>
+                    </div>
+                    
+                    <div class="weather-info-box">
+                        <div class="weather-temp-text" id="live-temp">--°C</div>
+                        <div class="weather-status-text" id="live-status">RICEZIONE DATI...</div>
+                        <div class="weather-loc-text" id="live-location">GPS SATELLITE COUPLING...</div>
+                    </div>
+                </div>
+                
+                <div class="station-grid">
+                    <div class="btn-preset active" onclick="switchView('radio')">📻 AUDIO (RADIO)</div>
+                    <div class="btn-preset" style="opacity:0.4; cursor:default;">[NAV]</div>
+                    <div class="btn-preset btn-sys-rounded" onclick="fetchLiveWeather()">🔄 REFRESH</div>
+                </div>
             </div>
 
-            <div class="station-grid">
-                <div class="btn-preset active" id="p-0">[1] 100% 80s</div>
-                <div class="btn-preset" id="p-1">[2] JAZZ INT.</div>
-                <div class="btn-preset" id="p-2">[3] EMPTY CH</div>
-                <div class="btn-preset" id="p-3">[4] EMPTY CH</div>
-                <div class="btn-preset" id="p-4">[5] EMPTY CH</div>
-                <div class="btn-preset" id="p-5">[6] EMPTY CH</div>
-            </div>
         </div>
 
         <div class="screen-right">
@@ -266,7 +401,7 @@
                 <div style="display:flex; gap: 6px;">
                     <div class="btn-audio-ctrl btn-seek" style="flex:1" onclick="seekStation(-1)"><< CH</div>
                     <div class="btn-audio-ctrl" style="flex:1; background:#071326; color:#fff;" id="seek-num">M-01</div>
-                    <div class="btn-audio-ctrl" style="flex:1" onclick="seekStation(1)">CH >></div>
+                    <div class="btn-audio-ctrl btn-seek" style="flex:1" onclick="seekStation(1)">CH >></div>
                 </div>
             </div>
 
@@ -281,7 +416,8 @@
 
             <div class="audio-actions">
                 <div class="btn-action" id="play-btn" onclick="togglePlayback()">SYSTEM ON</div>
-                <div class="btn-audio-ctrl" onclick="alert('HOLD PRESET 1-6 FOR 1.5 SECONDS TO SAVE CURRENT STATION!')">MEMORY GUIDE</div>
+                
+                <div class="btn-audio-ctrl btn-sys-rounded" id="sys-toggle-btn" onclick="switchView('weather')" style="padding: 12px 0; font-size: 13px;">[ SYS ] METEO</div>
             </div>
         </div>
     </div>
@@ -289,7 +425,7 @@
     <audio id="radio-player" preload="none"></audio>
 
     <script>
-        // GENERATORE MASSICCIO DI EMITTENTI (Database esteso ad alta compatibilità iOS)
+        // CODICE RADIO - COMPLETAMENTE PRESERVATO E INVARIATO
         const baseStazioni = [
             { name: "100% RADIO 80s", genre: "88.5 MHz - BEST OF EIGHTIES HITS", url: "https://100radio-80.ice.infomaniak.ch/100radio-80-128.mp3" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
@@ -303,7 +439,6 @@
             { name: "100% RADIO 70s", genre: "87.9 MHz - RETRO 70s EXPLOSION", url: "https://100radio-70.ice.infomaniak.ch/100radio-70-128.mp3" }
         ];
 
-        // Creazione di circa 80 combinazioni/sottocanali stabili usando cluster digitali certificati
         let masterTunerList = [...baseStazioni];
         const variantiServer = [
             { suffix: " ROCK", prefixUrl: "https://stream.rockantenne.de/", path: "rockantenne/stream/mp3", mhz: 90.5, g: "PURE HARD ROCK" },
@@ -315,7 +450,6 @@
             { suffix: " ITALIA DUB", prefixUrl: "https://ice08.fluidstream.net/", path: "708090.mp3", mhz: 95.9, g: "ANNI 70 80 ITALIA" }
         ];
 
-        // Riempiamo la lista fino a renderla enorme
         for (let i = 1; i <= 10; i++) {
             variantiServer.forEach((v, idx) => {
                 masterTunerList.push({
@@ -512,6 +646,94 @@
             bars.forEach(function(bar) { bar.style.height = '10%'; });
         }
 
+
+        /* --- NUOVO CODICE AGGIUNTO IN CODA INERENTE A NAVIGAZIONE E METEO LIVE --- */
+        
+        // Funzione per scambiare schermata (Radio <-> Meteo SYS)
+        function switchView(viewName) {
+            document.getElementById('view-radio').classList.remove('active-view');
+            document.getElementById('view-weather').classList.remove('active-view');
+            
+            const sysBtn = document.getElementById('sys-toggle-btn');
+            
+            if (viewName === 'weather') {
+                document.getElementById('view-weather').classList.add('active-view');
+                sysBtn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
+                sysBtn.style.color = "#ffffff";
+                // Richiama il meteo live ogni volta che si entra nella pagina
+                fetchLiveWeather();
+            } else {
+                document.getElementById('view-radio').classList.add('active-view');
+                sysBtn.style.background = "linear-gradient(180deg, #16335c, #09172e)";
+                sysBtn.style.color = "#a4c6f4";
+            }
+        }
+
+        // Recupero meteo in tempo reale tramite geolocalizzazione ed API libera Open-Meteo
+        function fetchLiveWeather() {
+            document.getElementById('live-status').innerText = "CONNESSIONE SERVER...";
+            
+            // Coordinate di default (Milano, Italia) se l'utente non concede il GPS
+            let lat = 45.4642;
+            let lon = 9.1900;
+            document.getElementById('live-location').innerText = "LOCATION: MILANO CENTER (DEFAULT)";
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        lat = position.coords.latitude;
+                        lon = position.coords.longitude;
+                        document.getElementById('live-location').innerText = `GPS COORDINATES: ${lat.toFixed(2)}N, ${lon.toFixed(2)}E`;
+                        callWeatherAPI(lat, lon);
+                    },
+                    (error) => {
+                        // In caso di rifiuto o errore GPS, usa i dati di default
+                        callWeatherAPI(lat, lon);
+                    },
+                    { timeout: 5000 }
+                );
+            } else {
+                callWeatherAPI(lat, lon);
+            }
+        }
+
+        function callWeatherAPI(lat, lon) {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code`;
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const temp = data.current.temperature_2m;
+                    const code = data.current.weather_code;
+                    
+                    // Aggiorna il testo della temperatura
+                    document.getElementById('live-temp').innerText = temp.toFixed(1) + "°C";
+                    
+                    // Decodifica semplificata del codice meteo WMO (Standard anni 2000)
+                    let statusText = "SERENO";
+                    if (code >= 1 && code <= 3) statusText = "POCO NUVOLOSO";
+                    else if (code >= 45 && code <= 48) statusText = "NEBBIOLINA OUT";
+                    else if (code >= 51 && code <= 67) statusText = "PIOGGIA LIVE";
+                    else if (code >= 71 && code <= 77) statusText = "NEVICATA IN CORSO";
+                    else if (code >= 80 && code <= 82) statusText = "ROVESCI ISOLATI";
+                    else if (code >= 95) statusText = "TEMPORALE IN ATTO";
+                    
+                    document.getElementById('live-status').innerText = statusText;
+                    
+                    // Muove graficamente il termometro sullo sfondo
+                    // Mappa la temperatura (-10°C a 50°C) sulla percentuale di altezza del fluido (0% a 100%)
+                    let percentage = ((temp + 10) / 60) * 100;
+                    if (percentage < 3) percentage = 3; // Limite minimo visivo
+                    if (percentage > 100) percentage = 100;
+                    document.getElementById('thermo-fluid').style.height = percentage + "%";
+                })
+                .catch(err => {
+                    document.getElementById('live-status').innerText = "ERRORE RICEZIONE";
+                    document.getElementById('live-temp').innerText = "ERR°C";
+                });
+        }
+
+        // AVVIO GENERALE (Preservato)
         refreshPresetButtons();
         setupPresetListeners();
         drawVolume();
