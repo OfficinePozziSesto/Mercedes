@@ -17,7 +17,7 @@
             width: 100%;
             height: 100%;
             height: 100svh;
-            background-color: #030710;
+            background-color: #030711;
             overflow: hidden;
             position: fixed;
             font-family: 'Courier New', monospace;
@@ -33,22 +33,33 @@
             box-sizing: border-box;
             position: relative;
             
-            /* NUOVO SFONDO: Onde di sintonizzazione radio geometriche e pulite stile Comand originale anni 2000 */
-            background-image: url('https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
+            /* SFONDO GENERATO IN CODICE: Stile Comand originale anni 2000 con linee di sintonizzazione radio */
+            background: radial-gradient(circle at 50% 50%, #0f2347 0%, #040a17 100%);
         }
 
+        /* Griglia cibernetica e linee di sintonizzazione radio geometriche */
         .comand-frame::before {
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            /* Filtro blu Mercedes profondo per fondere le onde di sintonizzazione */
-            background-color: rgba(6, 15, 33, 0.88); 
             background-image: 
-                linear-gradient(rgba(74, 144, 226, 0.12) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(74, 144, 226, 0.12) 1px, transparent 1px);
-            background-size: 20px 20px;
+                linear-gradient(rgba(74, 144, 226, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 226, 0.08) 1px, transparent 1px),
+                /* Barra/Scala di sintonizzazione orizzontale astratta stile radio anni 2000 */
+                linear-gradient(transparent 45%, rgba(74, 144, 226, 0.2) 49%, rgba(0, 242, 254, 0.4) 50%, rgba(74, 144, 226, 0.2) 51%, transparent 55%);
+            background-size: 20px 20px, 20px 20px, 100% 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Tacche verticali della frequenza stile sintonizzatore */
+        .comand-frame::after {
+            content: "";
+            position: absolute;
+            bottom: 45%; left: 10%; width: 80%; height: 15px;
+            background-image: linear-gradient(90deg, rgba(74, 144, 226, 0.3) 2px, transparent 2px);
+            background-size: 4% 100%;
+            opacity: 0.5;
             z-index: 1;
             pointer-events: none;
         }
@@ -82,6 +93,10 @@
         .display-frequenza {
             text-align: center;
             margin: 5px 0;
+            background: rgba(4, 13, 33, 0.6);
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(74, 144, 226, 0.2);
         }
         .ch-name {
             color: #ffffff;
@@ -252,10 +267,9 @@
         </div>
     </div>
 
-    <audio id="radio-player" crossorigin="anonymous" preload="none"></audio>
+    <audio id="radio-player" preload="none"></audio>
 
     <script>
-        // Server AUDIO CLONATI da quello funzionante (Infomaniak e SRG SSR diretti) per bypassare i blocchi iOS
         const stations = [
             { name: "JAZZ SWISS RADIO", genre: "92.4 MHz - SWISS JAZZ SELECTION", url: "https://stream.srg-ssr.ch/m/rsj/mp3_128" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
@@ -299,7 +313,7 @@
             
             if (wasPlaying) {
                 setTimeout(function() {
-                    player.play().catch(function(e) { console.log("Bypass"); });
+                    player.play().catch(function(e) { console.log("Audio bypass restriction"); });
                 }, 250);
             }
         }
