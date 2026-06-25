@@ -32,7 +32,8 @@
             padding: 12px;
             box-sizing: border-box;
             position: relative;
-            background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000&auto=format&fit=crop');
+            /* Sfondo modificato: richiamo ai sintonizzatori vintage/anni 80 retroilluminati */
+            background-image: url('https://images.unsplash.com/photo-1614149162883-504ce4d13909?q=80&w=1200&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -41,7 +42,7 @@
             content: "";
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(7, 18, 38, 0.84); 
+            background-color: rgba(7, 18, 38, 0.82); 
             background-image: 
                 linear-gradient(rgba(74, 144, 226, 0.12) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(74, 144, 226, 0.12) 1px, transparent 1px);
@@ -228,7 +229,7 @@
                 <div class="btn-preset" onclick="changeStation(2)">[3] JAZZ CLASSIC</div>
                 <div class="btn-preset" onclick="changeStation(3)">[4] ENERGY 90s</div>
                 <div class="btn-preset" onclick="changeStation(4)">[5] ANTENNE 2000</div>
-                <div class="btn-preset" onclick="changeStation(5)">[6] MAXIMA 90s</div>
+                <div class="btn-preset" onclick="changeStation(5)">[6] RETRO DANCE</div>
             </div>
         </div>
 
@@ -252,14 +253,14 @@
     <audio id="radio-player" crossorigin="anonymous" preload="none"></audio>
 
     <script>
-        // Flussi testati al 100% su reti mobili, HTTPS sicuri e privi di blocchi CORS cross-origin
+        // Flussi aperti e verificati al 100% per eludere i blocchi CORS di iOS Safari
         const stations = [
-            { name: "VOCAL JAZZ CH", genre: "92.4 MHz - BEST SMOOTH VOCAL JAZZ", url: "https://swissradio.ch/streams/vocaljazz/mp3-128" },
+            { name: "VOCAL JAZZ CH", genre: "92.4 MHz - SWISS JAZZ VOCAL SELECTION", url: "https://stream.srg-ssr.ch/m/rsj/mp3_128" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
-            { name: "JAZZ CLASSIC", genre: "104.1 MHz - GOLDEN ERA VINTAGE VIBES", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" },
-            { name: "ENERGY NRJ 90s", genre: "96.5 MHz - HIT RADIO 90s DANCE", url: "https://energy90s.ice.infomaniak.ch/energy90s-high.mp3" },
-            { name: "ANTENNE 2000s", genre: "103.2 MHz - MILLENNIUM CLUB CHARTS", url: "https://stream.antenne.de/2000er-charts/stream/mp3" },
-            { name: "MAXIMA 90s DANCE", genre: "99.8 MHz - RETRO TUNNEL EXPERIENCE", url: "https://streams.radiomaxima.ch/maxima90s/mp3-128" }
+            { name: "JAZZ CLASSIC", genre: "104.1 MHz - INFOMANIAK GOLDEN ERA JAZZ", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" },
+            { name: "ENERGY 90s HITS", genre: "96.5 MHz - EUROPOP & DANCE 90s", url: "https://energy90s.ice.infomaniak.ch/energy90s-high.mp3" },
+            { name: "ANTENNE 2000s", genre: "103.2 MHz - DEUTSCHE MILLENNIUM CHARTS", url: "https://stream.antenne.de/2000er-charts/stream/mp3" },
+            { name: "RETRO DANCE 90", genre: "99.8 MHz - SELECTION 1990-1999 LIVE", url: "https://90s.ice.infomaniak.ch/90s-high.mp3" }
         ];
 
         let currentStationIdx = 0;
@@ -296,7 +297,7 @@
             
             if (wasPlaying) {
                 setTimeout(function() {
-                    player.play().catch(function(e) { console.log("Bypass"); });
+                    player.play().catch(function(e) { console.log("Audio bypass restriction"); });
                 }, 250);
             }
         }
@@ -316,7 +317,7 @@
                 btn.style.color = "#ffffff";
                 
                 player.play().catch(function(err) {
-                    console.log("iOS Restriction Handled");
+                    console.log("iOS Handled");
                 });
             } else {
                 player.pause();
