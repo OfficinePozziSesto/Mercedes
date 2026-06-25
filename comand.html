@@ -243,10 +243,10 @@
             <div class="station-grid">
                 <div class="btn-preset active" onclick="changeStation(0)">[1] 100% RADIO 80s</div>
                 <div class="btn-preset" onclick="changeStation(1)">[2] JAZZ INTER.</div>
-                <div class="btn-preset" onclick="changeStation(2)">[3] JAZZ LOUNGE</div>
-                <div class="btn-preset" onclick="changeStation(3)">[4] FUNK & DISCO</div>
-                <div class="btn-preset" onclick="changeStation(4)">[5] CLASSIC ROCK</div>
-                <div class="btn-preset" onclick="changeStation(5)">[6] POP COMFORT</div>
+                <div class="btn-preset" onclick="changeStation(2)">[3] CLASSIC ROCK</div>
+                <div class="btn-preset" onclick="changeStation(3)">[4] DANCE 70/80s</div>
+                <div class="btn-preset" onclick="changeStation(4)">[5] POP HITS NAT.</div>
+                <div class="btn-preset" onclick="changeStation(5)">[6] ITALIA NOSTALGIA</div>
             </div>
         </div>
 
@@ -270,14 +270,14 @@
     <audio id="radio-player" preload="none"></audio>
 
     <script>
-        // CONFIGURAZIONE AUDIO BLINDATA: Tutti i link usano la stessa identica radice server approvata da Safari per la 1 e la 2
+        // SELEZIONE STREAMING COMPATIBILE APPLE: Sottodomini ad alta tolleranza mobile iOS
         const stations = [
             { name: "100% RADIO 80s", genre: "88.5 MHz - BEST OF EIGHTIES HITS", url: "https://100radio-80.ice.infomaniak.ch/100radio-80-128.mp3" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
-            { name: "JAZZ LOUNGE", genre: "94.3 MHz - CHILLOUT LOUNGE GROOVE", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-lounge.mp3" },
-            { name: "FUNK & DISCO 70/80", genre: "91.5 MHz - GROOVE, FUNK & GOLD DISCO", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-funk.mp3" },
-            { name: "CLASSIC ROCK", genre: "98.1 MHz - PURE VINTAGE ROCK CLASSICS", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-rock.mp3" },
-            { name: "POP COMFORT", genre: "101.6 MHz - POP ACOUSTIC & SOFT HITS", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-reprise.mp3" }
+            { name: "CLASSIC ROCK", genre: "101.3 MHz - PLANET ROCK VINTAGE CODES", url: "https://planetradio.gmdg.sources.net/plrock-high.mp3" },
+            { name: "70s/80s DISCO DANCE", genre: "92.4 MHz - 70s FUNK & BOOGIE ANTHEMS", url: "https://70s.ice.infomaniak.ch/70s-high.mp3" },
+            { name: "PURE POP HITS", genre: "104.1 MHz - TOP 40 GLOBAL MUSIC", url: "https://hit-radio.ice.infomaniak.ch/hit-radio-high.mp3" },
+            { name: "ITALIA NOSTALGIA", genre: "98.8 MHz - BEI TEMPI & MUSICA ITALIANA", url: "https://topit.ice.infomaniak.ch/topit-high.mp3" }
         ];
 
         let currentStationIdx = 0;
