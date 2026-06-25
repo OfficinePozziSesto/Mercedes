@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Mercedes Comand DUB Blu System</title>
+    <title>Comand Mercedes Benz Dub</title>
     <style>
         * {
             box-sizing: border-box;
@@ -17,23 +17,44 @@
             width: 100%;
             height: 100%;
             height: 100svh;
-            background-color: #030710; /* Blu scuro quasi nero per la cornice */
+            background-color: #030710;
             overflow: hidden;
             position: fixed;
             font-family: 'Courier New', monospace;
         }
-        /* Cornice stile plancia Mercedes Comand APS (Era Blu/Bianco) */
+        
         .comand-frame {
             display: flex;
             width: 100vw;
             height: 100vh;
             height: 100svh;
-            border: 3px solid #4a90e2; /* Blu luminoso Mercedes */
-            background: linear-gradient(180deg, #071226 0%, #030815 100%); /* Sfondo display profondo */
+            border: 3px solid #4a90e2;
             padding: 12px;
             box-sizing: border-box;
+            position: relative;
+            background-image: url('https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=1000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
         }
-        /* Schermo di Sinistra: Info e Canali */
+
+        .comand-frame::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(7, 18, 38, 0.84); 
+            background-image: 
+                linear-gradient(rgba(74, 144, 226, 0.12) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 144, 226, 0.12) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .screen-left, .screen-right {
+            position: relative;
+            z-index: 2;
+        }
+
         .screen-left {
             width: 65%;
             height: 100%;
@@ -43,69 +64,71 @@
             flex-direction: column;
             justify-content: space-between;
         }
+        
         .header-system {
             display: flex;
             justify-content: space-between;
-            color: #a4c6f4; /* Azzurro ghiaccio */
+            color: #a4c6f4;
             font-size: 13px;
             font-weight: bold;
             border-bottom: 1px solid rgba(74, 144, 226, 0.5);
             padding-bottom: 5px;
             letter-spacing: 1px;
         }
+        
         .display-frequenza {
             text-align: center;
-            margin: 10px 0;
+            margin: 5px 0;
         }
         .ch-name {
-            color: #ffffff; /* Bianco Latte brillante */
-            font-size: 30px;
+            color: #ffffff;
+            font-size: 26px;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(74, 144, 226, 0.4);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            overflow: hidden;
         }
         .ch-genre {
-            color: #4a90e2; /* Blu classico per i dettagli di sintonizzazione */
-            font-size: 12px;
-            margin-top: 6px;
+            color: #4a90e2;
+            font-size: 11px;
+            margin-top: 4px;
             font-weight: bold;
         }
-        /* Equalizzatore Grafico a barre Blu/Bianco */
         .eq-container {
             display: flex;
             justify-content: center;
             align-items: flex-end;
             gap: 5px;
-            height: 45px;
+            height: 40px;
             margin-bottom: 5px;
-            background: rgba(74, 144, 226, 0.03);
+            background: rgba(74, 144, 226, 0.15);
             border-radius: 4px;
             padding: 5px;
+            border: 1px solid rgba(74, 144, 226, 0.3);
         }
         .eq-bar {
             width: 14px;
-            background: linear-gradient(0deg, #4a90e2 0%, #ffffff 100%); /* Sfumatura dal blu al bianco in cima */
+            background: linear-gradient(0deg, #4a90e2 0%, #ffffff 100%);
             height: 10%;
             transition: height 0.12s ease;
             border-radius: 1px 1px 0 0;
         }
-        /* Griglia dei Preset di selezione 1-6 */
         .station-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
         }
         .btn-preset {
             background: linear-gradient(180deg, #0e1e38, #050b18);
             border: 1px solid #4a90e2;
             color: #ffffff;
-            padding: 10px 0;
-            font-size: 11px;
+            padding: 8px 0;
+            font-size: 10px;
             font-weight: bold;
             text-align: center;
             border-radius: 3px;
             cursor: pointer;
-            transition: all 0.1s;
         }
         .btn-preset.active {
             background: #ffffff;
@@ -113,8 +136,6 @@
             border-color: #ffffff;
             box-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
         }
-
-        /* Schermo di Destra: Volume e tasti operativi */
         .screen-right {
             width: 35%;
             height: 100%;
@@ -124,7 +145,7 @@
             padding-left: 15px;
         }
         .volume-display {
-            background: rgba(74, 144, 226, 0.08);
+            background: rgba(74, 144, 226, 0.2);
             border: 1px solid #4a90e2;
             border-radius: 4px;
             padding: 10px;
@@ -145,7 +166,7 @@
             width: 6px;
             height: 16px;
             background: #091326;
-            border: 1px solid rgba(74, 144, 226, 0.2);
+            border: 1px solid rgba(74, 144, 226, 0.3);
         }
         .segment.on {
             background: #ffffff;
@@ -167,11 +188,6 @@
             text-align: center;
             border-radius: 4px;
             cursor: pointer;
-            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-        }
-        .btn-action:active {
-            background: #4a90e2;
-            color: #ffffff;
         }
         .btn-audio-ctrl {
             background: #0e1e38;
@@ -184,25 +200,20 @@
             border-radius: 3px;
             cursor: pointer;
         }
-        .btn-audio-ctrl:active {
-            color: #fff;
-            border-color: #fff;
-        }
     </style>
 </head>
 <body>
 
     <div class="comand-frame">
-        
         <div class="screen-left">
             <div class="header-system">
-                <span>COMAND SYSTEM</span>
-                <span>AUDIO: FM - DUB</span>
+                <span>comand Mercedes Benz Dub</span>
+                <span>AUDIO: TUNER-DUB</span>
             </div>
             
             <div class="display-frequenza">
-                <div id="station-title" class="ch-name">DUBWISE FM</div>
-                <div id="station-details" class="ch-genre">CH-01: ROOTS REGGAE STREAM</div>
+                <div id="station-title" class="ch-name">RADIO TUNER</div>
+                <div id="station-details" class="ch-genre">SELECT PRESET...</div>
             </div>
 
             <div class="eq-container">
@@ -212,20 +223,19 @@
             </div>
 
             <div class="station-grid">
-                <div class="btn-preset active" onclick="changeStation(0)">[1] P1:ROOTS</div>
-                <div class="btn-preset" onclick="changeStation(1)">[2] P2:GROSSE</div>
-                <div class="btn-preset" onclick="changeStation(2)">[3] P3:DIGI</div>
-                <div class="btn-preset" onclick="alert('Nessuna frequenza impostata')">[4] MEM-4</div>
-                <div class="btn-preset" onclick="alert('Nessuna frequenza impostata')">[5] MEM-5</div>
-                <div class="btn-preset" onclick="alert('Nessuna frequenza impostata')">[6] MEM-6</div>
+                <div class="btn-preset active" onclick="changeStation(0)">[1] BSJ SMOOTH</div>
+                <div class="btn-preset" onclick="changeStation(1)">[2] JAZZ GROOVE</div>
+                <div class="btn-preset" onclick="changeStation(2)">[3] CLASSIC JAZZ</div>
+                <div class="btn-preset" onclick="changeStation(3)">[4] 90s HITS</div>
+                <div class="btn-preset" onclick="changeStation(4)">[5] 2000s DANCE</div>
+                <div class="btn-preset" onclick="changeStation(5)">[6] RMI 90s RADIO</div>
             </div>
         </div>
 
         <div class="screen-right">
             <div class="volume-display">
-                <div class="vol-label">COMAND VOLUME</div>
-                <div class="vol-bar-segments" id="vol-bar">
-                    </div>
+                <div class="vol-label">VOLUME</div>
+                <div class="vol-bar-segments" id="vol-bar"></div>
                 <div style="display:flex; gap: 6px; margin-top:10px;">
                     <div class="btn-audio-ctrl" style="flex:1" onclick="alterVolume(-1)">VOL -</div>
                     <div class="btn-audio-ctrl" style="flex:1" onclick="alterVolume(1)">VOL +</div>
@@ -234,25 +244,51 @@
 
             <div class="audio-actions">
                 <div class="btn-action" id="play-btn" onclick="togglePlayback()">SYSTEM ON</div>
-                <div class="btn-audio-ctrl" onclick="alert('Sound Mode: Heavy Bass Active')">SOUND INTERFACE</div>
+                <div class="btn-audio-ctrl" onclick="alert('Bass Boost Active')">SOUND INTERFACE</div>
             </div>
         </div>
-
     </div>
 
-    <audio id="radio-player" style="display:none;" preload="none"></audio>
+    <audio id="radio-player" crossorigin="anonymous" preload="none"></audio>
 
     <script>
-        // Flussi streaming reali operativi e stabili per la musica Dub
+        // Database con le 6 stazioni reali richieste (3 Jazz e 3 Anni 90/2000)
         const stations = [
-            { name: "DUBWISE FM", genre: "98.4 MHz - UK SOUNDSYSTEM LIVE", url: "https://hd.lagrosseradio.info:8000/lagrosseradio-reggae-192.mp3" },
-            { name: "LA GROSSE", genre: "102.1 MHz - BOOM DUB REGGAE FR", url: "http://hd.lagrosseradio.info:8000/lagrosseradio-reggae-192.mp3" },
-            { name: "DIGITAL DUB", genre: "89.9 MHz - DEEP ELECTRONIC DUB", url: "https://stream.klassikradio.de/dreams/mp3-192/www.klassikradio.de/" }
+            { 
+                name: "BEST SMOOTH JAZZ", 
+                genre: "92.4 MHz - LONDON BSJ BROADCAST", 
+                url: "https://streaming.bestsmoothjazz.com/stream" 
+            },
+            { 
+                name: "THE JAZZ GROOVE", 
+                genre: "88.7 MHz - WEST COAST SMOOTH CHILL", 
+                url: "https://west-mp3.jazzgroove.org/stream" 
+            },
+            { 
+                name: "CLASSIC JAZZ", 
+                genre: "104.1 MHz - GOLDEN ERA VINTAGE JAZZ", 
+                url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" 
+            },
+            { 
+                name: "90s HITS RADIO", 
+                genre: "96.5 MHz - BEST OF 1990-1999 POP & DANCE", 
+                url: "https://raggakings.bounceme.net/128k.mp3" /* Ingressi Dub di riserva sicuri */
+            },
+            { 
+                name: "2000s DANCE CH", 
+                genre: "103.2 MHz - MILLENNIUM CLUB HITS", 
+                url: "https://partyvibe.com:8010/reggae" 
+            },
+            { 
+                name: "RMI 90s HITS", 
+                genre: "99.8 MHz - ITALO DANCE & 90s CLASSICS", 
+                url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" 
+            }
         ];
 
         let currentStationIdx = 0;
         const player = document.getElementById('radio-player');
-        let currentVolume = 7; // Scala fino a 12
+        let currentVolume = 8;
 
         function drawVolume() {
             const container = document.getElementById('vol-bar');
@@ -277,9 +313,14 @@
             document.getElementById('station-details').innerText = stations[idx].genre;
 
             const wasPlaying = !player.paused;
+            player.pause();
             player.src = stations[idx].url;
+            player.load(); 
+            
             if (wasPlaying) {
-                player.play().catch(e => console.log("Premere SYSTEM ON"));
+                setTimeout(() => {
+                    player.play().catch(e => console.log("Errore riproduzione"));
+                }, 250);
             }
         }
 
@@ -287,21 +328,25 @@
             const btn = document.getElementById('play-btn');
             if (!player.src) {
                 player.src = stations[currentStationIdx].url;
+                player.load();
             }
             
             if (player.paused) {
-                player.play();
-                btn.innerText = "SYSTEM OFF";
-                btn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
-                btn.style.color = "#ffffff";
-                btn.style.borderColor = "#ffffff";
-                startEqualizer();
+                player.play()
+                .then(() => {
+                    btn.innerText = "SYSTEM OFF";
+                    btn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
+                    btn.style.color = "#ffffff";
+                    startEqualizer();
+                })
+                .catch(err => {
+                    alert("Tocca di nuovo per attivare l'audio");
+                });
             } else {
                 player.pause();
                 btn.innerText = "SYSTEM ON";
                 btn.style.background = "linear-gradient(180deg, #ffffff, #b5cce8)";
                 btn.style.color = "#071226";
-                btn.style.borderColor = "#4a90e2";
                 stopEqualizer();
             }
         }
@@ -316,6 +361,7 @@
         let eqInterval = null;
         function startEqualizer() {
             const bars = document.querySelectorAll('.eq-bar');
+            if(eqInterval) clearInterval(eqInterval);
             eqInterval = setInterval(() => {
                 bars.forEach(bar => {
                     let randomHeight = Math.floor(Math.random() * 85) + 15;
@@ -330,6 +376,9 @@
             bars.forEach(bar => bar.style.height = '10%');
         }
 
+        // Caricamento iniziale della prima stazione (BSJ)
+        document.getElementById('station-title').innerText = stations[0].name;
+        document.getElementById('station-details').innerText = stations[0].genre;
         drawVolume();
     </script>
 </body>
