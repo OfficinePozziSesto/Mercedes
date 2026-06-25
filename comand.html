@@ -224,10 +224,10 @@
             background: linear-gradient(180deg, #214070, #0e1e38);
             color: #fff;
             border: 1px solid #4a90e2;
-            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
+            box-shadow: 0 0 5px rgba(74, 144, 226, 0.3ON GADGETS, 0.3);
         }
 
-        /* --- STILI NUOVA SCHERMATA METEO (SYS) --- */
+        /* --- STILI SCHERMATA METEO (SYS) --- */
         .page-view {
             display: none;
             width: 100%;
@@ -239,7 +239,6 @@
             display: flex;
         }
         
-        /* Grafica Termometro nello sfondo del meteo */
         .weather-panel-content {
             position: relative;
             background: rgba(11, 29, 56, 0.85);
@@ -253,53 +252,132 @@
             overflow: hidden;
         }
         
+        /* Termometro */
         .thermometer-visual {
-            width: 35px;
+            width: 30px;
             height: 100%;
             background: #071326;
             border: 2px solid #4a90e2;
-            border-radius: 20px;
+            border-radius: 15px;
             position: relative;
             display: flex;
             flex-direction: column-reverse;
-            padding: 4px;
+            padding: 3px;
             box-sizing: border-box;
         }
         
         .thermo-fill {
             width: 100%;
-            height: 50%; /* Dinamico via JS */
+            height: 50%;
             background: linear-gradient(0deg, #4a90e2 0%, #ffffff 100%);
-            border-radius: 20px;
+            border-radius: 15px;
             box-shadow: 0 0 10px rgba(74, 144, 226, 0.8);
             transition: height 0.5s ease;
         }
         
         .thermo-ticks {
             position: absolute;
-            left: 40px;
+            left: 35px;
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             color: #a4c6f4;
-            font-size: 9px;
+            font-size: 8px;
             font-weight: bold;
-            padding: 5px 0;
+            padding: 3px 0;
             top: 0;
         }
 
-        .weather-info-box {
+        /* Container centrale con Info e Icona richiesta */
+        .weather-center-group {
             flex: 1;
-            margin-left: 55px;
-            text-align: left;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-left: 45px;
+            gap: 20px;
+        }
+
+        /* Icone Meteo Semplificate in Puro CSS (Stile anni 2000) */
+        .weather-icon-css {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
             justify-content: center;
         }
 
+        /* Sole */
+        .icon-sun {
+            background: #ffdb4d;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #ffdb4d, 0 0 40px #ff9900;
+            animation: sun-beat 2s infinite alternate;
+        }
+        @keyframes sun-beat { to { transform: scale(1.1); box-shadow: 0 0 30px #ffdb4d, 0 0 60px #ff9900; } }
+
+        /* Nuvola Base */
+        .css-cloud, .css-cloud::after, .css-cloud::before {
+            background: #a4c6f4;
+            border-radius: 50%;
+            position: absolute;
+        }
+        .css-cloud { width: 35px; height: 35px; top: 15px; filter: drop-shadow(0 0 5px rgba(164, 198, 244, 0.8)); }
+        .css-cloud::after { content:''; width: 25px; height: 25px; bottom: -5px; left: -15px; }
+        .css-cloud::before { content:''; width: 20px; height: 20px; bottom: -2px; right: -12px; }
+
+        /* Pioggia */
+        .icon-rain .css-cloud { background: #7094db; }
+        .icon-rain::after {
+            content: '';
+            position: absolute;
+            width: 4px; height: 10px;
+            background: #4a90e2;
+            border-radius: 2px;
+            top: 50px; left: 20px;
+            box-shadow: 10px 5px #4a90e2, 20px -2px #4a90e2;
+            animation: rain-drop 1s infinite linear;
+        }
+        @keyframes rain-drop { to { transform: translateY(15px); opacity: 0; } }
+
+        /* Neve */
+        .icon-snow .css-cloud { background: #ffffff; }
+        .icon-snow::after {
+            content: '❄';
+            position: absolute;
+            color: #ffffff;
+            font-size: 16px;
+            top: 45px;
+            text-shadow: 15px 8px #ffffff, -15px 5px #ffffff;
+            animation: snow-fall 3s infinite linear;
+        }
+        @keyframes snow-fall { to { transform: translateY(20px) rotate(20deg); opacity: 0; } }
+
+        /* Temporale */
+        .icon-thunder .css-cloud { background: #4d4d4d; }
+        .icon-thunder::after {
+            content: '⚡';
+            position: absolute;
+            color: #ffdb4d;
+            font-size: 24px;
+            font-weight: bold;
+            top: 40px;
+            text-shadow: 0 0 10px #ffdb4d;
+            animation: thunder-bolt 1.5s infinite;
+        }
+        @keyframes thunder-bolt { 0%, 90% { opacity: 0; } 92% { opacity: 1; } 93% { opacity: 0; } 94% { opacity: 1; } 100% { opacity: 0; } }
+
+
+        .weather-info-box {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+        }
+
         .weather-temp-text {
-            font-size: 42px;
+            font-size: 38px;
             color: #ffffff;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(74, 144, 226, 0.6);
@@ -307,21 +385,21 @@
 
         .weather-status-text {
             color: #a4c6f4;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 5px;
+            margin-top: 2px;
         }
         
         .weather-loc-text {
             color: #4a90e2;
-            font-size: 11px;
-            margin-top: 15px;
+            font-size: 10px;
+            margin-top: 10px;
             font-weight: bold;
+            white-space: nowrap;
         }
         
-        /* Tasto stondato rettangolare richiesto */
         .btn-sys-rounded {
             border-radius: 8px !important;
             background: linear-gradient(180deg, #16335c, #09172e) !important;
@@ -379,10 +457,15 @@
                         </div>
                     </div>
                     
-                    <div class="weather-info-box">
-                        <div class="weather-temp-text" id="live-temp">--°C</div>
-                        <div class="weather-status-text" id="live-status">RICEZIONE DATI...</div>
-                        <div class="weather-loc-text" id="live-location">GPS SATELLITE COUPLING...</div>
+                    <div class="weather-center-group">
+                        <div class="weather-icon-css" id="weather-icon-container">
+                            </div>
+
+                        <div class="weather-info-box">
+                            <div class="weather-temp-text" id="live-temp">--°C</div>
+                            <div class="weather-status-text" id="live-status">RICEZIONE DATI...</div>
+                            <div class="weather-loc-text" id="live-location">GPS SATELLITE COUPLING...</div>
+                        </div>
                     </div>
                 </div>
                 
@@ -416,7 +499,6 @@
 
             <div class="audio-actions">
                 <div class="btn-action" id="play-btn" onclick="togglePlayback()">SYSTEM ON</div>
-                
                 <div class="btn-audio-ctrl btn-sys-rounded" id="sys-toggle-btn" onclick="switchView('weather')" style="padding: 12px 0; font-size: 13px;">[ SYS ] METEO</div>
             </div>
         </div>
@@ -425,7 +507,7 @@
     <audio id="radio-player" preload="none"></audio>
 
     <script>
-        // CODICE RADIO - COMPLETAMENTE PRESERVATO E INVARIATO
+        // CODICE RADIO (INVARIATO)
         const baseStazioni = [
             { name: "100% RADIO 80s", genre: "88.5 MHz - BEST OF EIGHTIES HITS", url: "https://100radio-80.ice.infomaniak.ch/100radio-80-128.mp3" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
@@ -647,9 +729,7 @@
         }
 
 
-        /* --- NUOVO CODICE AGGIUNTO IN CODA INERENTE A NAVIGAZIONE E METEO LIVE --- */
-        
-        // Funzione per scambiare schermata (Radio <-> Meteo SYS)
+        /* --- CODICE NAVIGAZIONE E METEO --- */
         function switchView(viewName) {
             document.getElementById('view-radio').classList.remove('active-view');
             document.getElementById('view-weather').classList.remove('active-view');
@@ -660,7 +740,6 @@
                 document.getElementById('view-weather').classList.add('active-view');
                 sysBtn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
                 sysBtn.style.color = "#ffffff";
-                // Richiama il meteo live ogni volta che si entra nella pagina
                 fetchLiveWeather();
             } else {
                 document.getElementById('view-radio').classList.add('active-view');
@@ -669,32 +748,26 @@
             }
         }
 
-        // Recupero meteo in tempo reale tramite geolocalizzazione ed API libera Open-Meteo
         function fetchLiveWeather() {
             document.getElementById('live-status').innerText = "CONNESSIONE SERVER...";
+            setWeatherIcon('load'); // Stato caricamento
             
-            // Coordinate di default (Milano, Italia) se l'utente non concede il GPS
-            let lat = 45.4642;
+            let lat = 45.4642; // Milano Default
             let lon = 9.1900;
-            document.getElementById('live-location').innerText = "LOCATION: MILANO CENTER (DEFAULT)";
+            document.getElementById('live-location').innerText = "LOCATION: MILANO (DEFAULT)";
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
                         lat = position.coords.latitude;
                         lon = position.coords.longitude;
-                        document.getElementById('live-location').innerText = `GPS COORDINATES: ${lat.toFixed(2)}N, ${lon.toFixed(2)}E`;
+                        document.getElementById('live-location').innerText = `GPS: ${lat.toFixed(2)}N, ${lon.toFixed(2)}E`;
                         callWeatherAPI(lat, lon);
                     },
-                    (error) => {
-                        // In caso di rifiuto o errore GPS, usa i dati di default
-                        callWeatherAPI(lat, lon);
-                    },
+                    (error) => { callWeatherAPI(lat, lon); },
                     { timeout: 5000 }
                 );
-            } else {
-                callWeatherAPI(lat, lon);
-            }
+            } else { callWeatherAPI(lat, lon); }
         }
 
         function callWeatherAPI(lat, lon) {
@@ -706,34 +779,62 @@
                     const temp = data.current.temperature_2m;
                     const code = data.current.weather_code;
                     
-                    // Aggiorna il testo della temperatura
                     document.getElementById('live-temp').innerText = temp.toFixed(1) + "°C";
                     
-                    // Decodifica semplificata del codice meteo WMO (Standard anni 2000)
+                    // Decodifica WMO e impostazione Icona CSS richiesta
                     let statusText = "SERENO";
-                    if (code >= 1 && code <= 3) statusText = "POCO NUVOLOSO";
-                    else if (code >= 45 && code <= 48) statusText = "NEBBIOLINA OUT";
-                    else if (code >= 51 && code <= 67) statusText = "PIOGGIA LIVE";
-                    else if (code >= 71 && code <= 77) statusText = "NEVICATA IN CORSO";
-                    else if (code >= 80 && code <= 82) statusText = "ROVESCI ISOLATI";
-                    else if (code >= 95) statusText = "TEMPORALE IN ATTO";
+                    let iconType = 'sun';
+
+                    if (code === 0) { statusText = "SERENO"; iconType = 'sun'; }
+                    else if (code >= 1 && code <= 3) { statusText = "NUVOLOSO"; iconType = 'cloud'; }
+                    else if (code >= 45 && code <= 48) { statusText = "NEBBIA"; iconType = 'cloud'; }
+                    else if (code >= 51 && code <= 67) { statusText = "PIOGGIA"; iconType = 'rain'; }
+                    else if (code >= 71 && code <= 77) { statusText = "NEVE"; iconType = 'snow'; }
+                    else if (code >= 80 && code <= 82) { statusText = "ROVESCI"; iconType = 'rain'; }
+                    else if (code >= 95) { statusText = "TEMPORALE"; iconType = 'thunder'; }
                     
                     document.getElementById('live-status').innerText = statusText;
+                    setWeatherIcon(iconType); // Aggiorna l'icona
                     
-                    // Muove graficamente il termometro sullo sfondo
-                    // Mappa la temperatura (-10°C a 50°C) sulla percentuale di altezza del fluido (0% a 100%)
+                    // Termometro
                     let percentage = ((temp + 10) / 60) * 100;
-                    if (percentage < 3) percentage = 3; // Limite minimo visivo
+                    if (percentage < 5) percentage = 5;
                     if (percentage > 100) percentage = 100;
                     document.getElementById('thermo-fluid').style.height = percentage + "%";
                 })
                 .catch(err => {
-                    document.getElementById('live-status').innerText = "ERRORE RICEZIONE";
+                    document.getElementById('live-status').innerText = "ERRORE DATI";
                     document.getElementById('live-temp').innerText = "ERR°C";
+                    setWeatherIcon('error');
                 });
         }
 
-        // AVVIO GENERALE (Preservato)
+        // Funzione Modificata per inserire le nuvolette/icone CSS richieste nello script
+        function setWeatherIcon(type) {
+            const container = document.getElementById('weather-icon-container');
+            container.innerHTML = ''; // Pulisce precedente
+            container.className = 'weather-icon-css'; // Reset classi
+
+            if (type === 'load') {
+                container.innerText = '...';
+                container.style.color = '#a4c6f4';
+            } else if (type === 'error') {
+                container.innerText = 'X';
+                container.style.color = '#ff4d4d';
+            } else {
+                // Aggiunge la classe specifica per lo stile CSS definito sopra
+                container.classList.add('icon-' + type);
+                
+                // Inserisce l'elemento base per la nuvola se necessario (non per il sole puro)
+                if (type !== 'sun') {
+                    const cloudSpan = document.createElement('span');
+                    cloudSpan.className = 'css-cloud';
+                    container.appendChild(cloudSpan);
+                }
+            }
+        }
+
+        // AVVIO (Preservato)
         refreshPresetButtons();
         setupPresetListeners();
         drawVolume();
