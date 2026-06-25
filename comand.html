@@ -32,11 +32,9 @@
             padding: 12px;
             box-sizing: border-box;
             position: relative;
-            /* MODIFICA: Sfondo blu schiarito rispetto a prima per maggiore visibilità */
             background-color: #0e2447;
         }
 
-        /* STRATO SFONDO: Scala di sintonizzazione analogica anni 80 in bianco e nero disegnata in codice */
         .tuner-back-layer {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -52,7 +50,6 @@
             background-repeat: no-repeat, no-repeat, repeat-x;
         }
 
-        /* Griglia blu originale del Comand sopra lo sintonizzatore */
         .comand-frame::before {
             content: "";
             position: absolute;
@@ -246,10 +243,10 @@
             <div class="station-grid">
                 <div class="btn-preset active" onclick="changeStation(0)">[1] 100% RADIO 80s</div>
                 <div class="btn-preset" onclick="changeStation(1)">[2] JAZZ INTER.</div>
-                <div class="btn-preset" onclick="changeStation(2)">[3] ITALIANA HITS</div>
-                <div class="btn-preset" onclick="changeStation(3)">[4] PURE POP RADIO</div>
+                <div class="btn-preset" onclick="changeStation(2)">[3] JAZZ LOUNGE</div>
+                <div class="btn-preset" onclick="changeStation(3)">[4] FUNK & DISCO</div>
                 <div class="btn-preset" onclick="changeStation(4)">[5] CLASSIC ROCK</div>
-                <div class="btn-preset" onclick="changeStation(5)">[6] 70s DISCO DANCE</div>
+                <div class="btn-preset" onclick="changeStation(5)">[6] POP COMFORT</div>
             </div>
         </div>
 
@@ -273,14 +270,14 @@
     <audio id="radio-player" preload="none"></audio>
 
     <script>
-        // MODIFICA: Nuova lista radio con flussi stabili MP3 ad alta compatibilità per iOS
+        // CONFIGURAZIONE AUDIO BLINDATA: Tutti i link usano la stessa identica radice server approvata da Safari per la 1 e la 2
         const stations = [
             { name: "100% RADIO 80s", genre: "88.5 MHz - BEST OF EIGHTIES HITS", url: "https://100radio-80.ice.infomaniak.ch/100radio-80-128.mp3" },
             { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
-            { name: "MUSICA ITALIANA", genre: "95.6 MHz - SOLO GRANDI SUCCESSI ITALIANI", url: "https://topit.ice.infomaniak.ch/topit-high.mp3" },
-            { name: "PURE POP RADIO", genre: "102.1 MHz - HIT RADIO POP & DANCE", url: "https://hit-radio.ice.infomaniak.ch/hit-radio-high.mp3" },
-            { name: "CLASSIC ROCK", genre: "98.4 MHz - ROCK ANTHEMS & LEGENDS", url: "https://classicrock.ice.infomaniak.ch/classicrock-high.mp3" },
-            { name: "70s DISCO DANCE", genre: "91.2 MHz - PURE 1970 FUNK & DISCO", url: "https://70s.ice.infomaniak.ch/70s-high.mp3" }
+            { name: "JAZZ LOUNGE", genre: "94.3 MHz - CHILLOUT LOUNGE GROOVE", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-lounge.mp3" },
+            { name: "FUNK & DISCO 70/80", genre: "91.5 MHz - GROOVE, FUNK & GOLD DISCO", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-funk.mp3" },
+            { name: "CLASSIC ROCK", genre: "98.1 MHz - PURE VINTAGE ROCK CLASSICS", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-rock.mp3" },
+            { name: "POP COMFORT", genre: "101.6 MHz - POP ACOUSTIC & SOFT HITS", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-reprise.mp3" }
         ];
 
         let currentStationIdx = 0;
