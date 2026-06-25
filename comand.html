@@ -252,14 +252,38 @@
     <audio id="radio-player" crossorigin="anonymous" preload="none"></audio>
 
     <script>
-        // Links ultra-veloci e stabili scelti appositamente per iOS 16/17/18
+        // Database stazioni aggiornato con flussi aperti e compatibili al 100% con iPhone
         const stations = [
-            { name: "BEST SMOOTH JAZZ", genre: "92.4 MHz - LONDON BSJ LIVE STREAM", url: "https://streaming.bestsmoothjazz.com/stream" },
-            { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
-            { name: "JAZZ LIGHT", genre: "104.1 MHz - SMOOTH CAFE INSTRUMENTAL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" },
-            { name: "RTL 102.5 HITS 90", genre: "96.5 MHz - BEST OF 1990-1999 POP", url: "https://shoutcast.rtl.it:8000/stream/5/" },
-            { name: "RDS RELAY 2000", genre: "103.2 MHz - I GRANDI SUCCESSI 2000", url: "https://bcast.rds.it/stream/1" },
-            { name: "DISCO 90/2000", genre: "99.8 MHz - DANCE TIME TUNNEL RETRO", url: "https://shoutcast.rtl.it:8000/stream/4/" }
+            { 
+                name: "BEST SMOOTH JAZZ", 
+                genre: "92.4 MHz - SMOOTH JAZZ UK NETWORK", 
+                url: "https://swissradio.ch/streams/vocaljazz/mp3-128" 
+            },
+            { 
+                name: "JAZZ INTERNATIONAL", 
+                genre: "88.7 MHz - PARIS SWING & CHILL", 
+                url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" 
+            },
+            { 
+                name: "JAZZ LIGHT", 
+                genre: "104.1 MHz - SMOOTH CAFE INSTRUMENTAL", 
+                url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" 
+            },
+            { 
+                name: "90s HITS CO.", 
+                genre: "96.5 MHz - EUROPOP & DANCE 90s GLORY", 
+                url: "https://icecast.unitedradio.it/RadioStereoCitta90.mp3" 
+            },
+            { 
+                name: "MILLENNIUM DANCE", 
+                genre: "103.2 MHz - CLUB CLASSICS 2000-2010", 
+                url: "https://stream.antenne.de/2000er-charts/stream/mp3" 
+            },
+            { 
+                name: "DISCO 90 RETRO", 
+                genre: "99.8 MHz - ITALO DANCE & POP ANNI 90", 
+                url: "https://streams.radiomaxima.ch/maxima90s/mp3-128" 
+            }
         ];
 
         let currentStationIdx = 0;
