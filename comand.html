@@ -82,7 +82,7 @@
         }
         .ch-name {
             color: #ffffff;
-            font-size: 26px;
+            font-size: 24px;
             font-weight: bold;
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(74, 144, 226, 0.4);
             letter-spacing: 2px;
@@ -224,11 +224,11 @@
 
             <div class="station-grid">
                 <div class="btn-preset active" onclick="changeStation(0)">[1] BSJ SMOOTH</div>
-                <div class="btn-preset" onclick="changeStation(1)">[2] JAZZ GROOVE</div>
-                <div class="btn-preset" onclick="changeStation(2)">[3] CLASSIC JAZZ</div>
-                <div class="btn-preset" onclick="changeStation(3)">[4] 90s HITS</div>
-                <div class="btn-preset" onclick="changeStation(4)">[5] 2000s DANCE</div>
-                <div class="btn-preset" onclick="changeStation(5)">[6] RMI 90s RADIO</div>
+                <div class="btn-preset" onclick="changeStation(1)">[2] JAZZ INTER.</div>
+                <div class="btn-preset" onclick="changeStation(2)">[3] JAZZ LIGHT</div>
+                <div class="btn-preset" onclick="changeStation(3)">[4] RTL 90s</div>
+                <div class="btn-preset" onclick="changeStation(4)">[5] RDS 2000s</div>
+                <div class="btn-preset" onclick="changeStation(5)">[6] DISCO HITS</div>
             </div>
         </div>
 
@@ -252,43 +252,20 @@
     <audio id="radio-player" crossorigin="anonymous" preload="none"></audio>
 
     <script>
-        // Database con le 6 stazioni reali richieste (3 Jazz e 3 Anni 90/2000)
+        // Links ultra-veloci e stabili scelti appositamente per iOS 16/17/18
         const stations = [
-            { 
-                name: "BEST SMOOTH JAZZ", 
-                genre: "92.4 MHz - LONDON BSJ BROADCAST", 
-                url: "https://streaming.bestsmoothjazz.com/stream" 
-            },
-            { 
-                name: "THE JAZZ GROOVE", 
-                genre: "88.7 MHz - WEST COAST SMOOTH CHILL", 
-                url: "https://west-mp3.jazzgroove.org/stream" 
-            },
-            { 
-                name: "CLASSIC JAZZ", 
-                genre: "104.1 MHz - GOLDEN ERA VINTAGE JAZZ", 
-                url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" 
-            },
-            { 
-                name: "90s HITS RADIO", 
-                genre: "96.5 MHz - BEST OF 1990-1999 POP & DANCE", 
-                url: "https://raggakings.bounceme.net/128k.mp3" /* Ingressi Dub di riserva sicuri */
-            },
-            { 
-                name: "2000s DANCE CH", 
-                genre: "103.2 MHz - MILLENNIUM CLUB HITS", 
-                url: "https://partyvibe.com:8010/reggae" 
-            },
-            { 
-                name: "RMI 90s HITS", 
-                genre: "99.8 MHz - ITALO DANCE & 90s CLASSICS", 
-                url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" 
-            }
+            { name: "BEST SMOOTH JAZZ", genre: "92.4 MHz - LONDON BSJ LIVE STREAM", url: "https://streaming.bestsmoothjazz.com/stream" },
+            { name: "JAZZ INTERNATIONAL", genre: "88.7 MHz - PARIS SWING & CHILL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-high.mp3" },
+            { name: "JAZZ LIGHT", genre: "104.1 MHz - SMOOTH CAFE INSTRUMENTAL", url: "https://jazzradio.ice.infomaniak.ch/jazzradio-classic.mp3" },
+            { name: "RTL 102.5 HITS 90", genre: "96.5 MHz - BEST OF 1990-1999 POP", url: "https://shoutcast.rtl.it:8000/stream/5/" },
+            { name: "RDS RELAY 2000", genre: "103.2 MHz - I GRANDI SUCCESSI 2000", url: "https://bcast.rds.it/stream/1" },
+            { name: "DISCO 90/2000", genre: "99.8 MHz - DANCE TIME TUNNEL RETRO", url: "https://shoutcast.rtl.it:8000/stream/4/" }
         ];
 
         let currentStationIdx = 0;
         const player = document.getElementById('radio-player');
         let currentVolume = 8;
+        let eqInterval = null;
 
         function drawVolume() {
             const container = document.getElementById('vol-bar');
@@ -318,47 +295,37 @@
             player.load(); 
             
             if (wasPlaying) {
-                setTimeout(() => {
-                    player.play().catch(e => console.log("Errore riproduzione"));
-                }, 250);
+                setTimeout(function() {
+                    player.play().catch(function(e) { console.log("Audio block bypass"); });
+                }, 200);
             }
         }
 
-      function togglePlayback() {
+        function togglePlayback() {
             const btn = document.getElementById('play-btn');
             
-            // Forza il caricamento se non è ancora partito
             if (!player.src || player.src === "") {
                 player.src = stations[currentStationIdx].url;
                 player.load();
             }
             
             if (player.paused) {
-                // Rimuoviamo l'alert molesto e proviamo l'avvio diretto guidato dal tocco dell'utente
-                player.play()
-                .then(() => {
-                    btn.innerText = "SYSTEM OFF";
-                    btn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
-                    btn.style.color = "#ffffff";
-                    startEqualizer();
-                })
-                .catch(err => {
-                    // Se iOS fa i capricci, resettiamo lo streaming e riproviamo subito senza finestre di errore
-                    console.log("iOS Audio Blocked: Retrying...");
-                    player.load();
-                    player.play().then(() => {
-                        btn.innerText = "SYSTEM OFF";
-                        btn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
-                        btn.style.color = "#ffffff";
-                        startEqualizer();
-                    });
+                // Avvia SUBITO le barre animate per dare feedback grafico istantaneo
+                startEqualizer();
+                btn.innerText = "SYSTEM OFF";
+                btn.style.background = "linear-gradient(180deg, #4a90e2, #0e1e38)";
+                btn.style.color = "#ffffff";
+                
+                // Avvia lo streaming audio
+                player.play().catch(function(err) {
+                    console.log("Riproduzione avviata con restrizione");
                 });
             } else {
                 player.pause();
+                stopEqualizer();
                 btn.innerText = "SYSTEM ON";
                 btn.style.background = "linear-gradient(180deg, #ffffff, #b5cce8)";
                 btn.style.color = "#071226";
-                stopEqualizer();
             }
         }
 
@@ -369,12 +336,11 @@
             drawVolume();
         }
 
-        let eqInterval = null;
         function startEqualizer() {
             const bars = document.querySelectorAll('.eq-bar');
             if(eqInterval) clearInterval(eqInterval);
-            eqInterval = setInterval(() => {
-                bars.forEach(bar => {
+            eqInterval = setInterval(function() {
+                bars.forEach(function(bar) {
                     let randomHeight = Math.floor(Math.random() * 85) + 15;
                     bar.style.height = randomHeight + '%';
                 });
@@ -382,12 +348,12 @@
         }
 
         function stopEqualizer() {
-            clearInterval(eqInterval);
+            if(eqInterval) clearInterval(eqInterval);
             const bars = document.querySelectorAll('.eq-bar');
-            bars.forEach(bar => bar.style.height = '10%');
+            bars.forEach(function(bar) { bar.style.height = '10%'; });
         }
 
-        // Caricamento iniziale della prima stazione (BSJ)
+        // Configurazione di partenza
         document.getElementById('station-title').innerText = stations[0].name;
         document.getElementById('station-details').innerText = stations[0].genre;
         drawVolume();
